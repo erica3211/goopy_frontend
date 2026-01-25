@@ -1,7 +1,7 @@
 import { api } from "./axios";
 import type { Waiting } from "../types/waiting";
 
-interface WaitingListResponse {
+export interface WaitingListResponse {
   success: boolean;
   data: {
     items: Waiting[];
@@ -13,15 +13,18 @@ interface WaitingListResponse {
   message: string;
 }
 
-export const getWaitingList = async (): Promise<WaitingListResponse> => {
-  const res = await api.get("/waitings");
+export const getWaitingList = async (params?: {
+  status?: "WAITING" | "IN_PROGRESS";
+  page?: number;
+  size?: number;
+}): Promise<WaitingListResponse> => {
+  const res = await api.get("/waitings", {
+    params: {
+      status: params?.status ?? "WAITING",
+      page: params?.page ?? 1,
+      size: params?.size ?? 10,
+    },
+  });
+
   return res.data;
 };
-
-export const createWaiting = async (data: {
-  name: string;
-  phone: string;
-}) => {
-  return api.post("/waiting", data);
-};
-
