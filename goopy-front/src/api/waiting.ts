@@ -18,7 +18,7 @@ export const getWaitingList = async (params?: {
   page?: number;
   size?: number;
 }): Promise<WaitingListResponse> => {
-  const res = await api.get("/waitings", {
+  const res = await api.get("/waitings/list", {
     params: {
       status: params?.status ?? "WAITING",
       page: params?.page ?? 1,
@@ -27,4 +27,12 @@ export const getWaitingList = async (params?: {
   });
 
   return res.data;
+};
+
+
+export const createWaiting = async (data: {
+  name: string;
+  phone: string;
+}) => {
+  return api.post("/waitings/create", data);
 };

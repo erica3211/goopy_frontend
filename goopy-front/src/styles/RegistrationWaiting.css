@@ -1,0 +1,70 @@
+.waiting-register-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #6a5acd, #8a2be2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.waiting-card {
+  background: white;
+  width: 100%;
+  max-width: 380px;
+  padding: 32px;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+.title {
+  text-align: center;
+  margin-bottom: 24px;
+  color: #5b3cc4;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.form-group {
+  margin-bottom: 16px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 14px;
+  color: #555;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  font-size: 14px;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #7b5cff;
+}
+
+.submit-button {
+  width: 100%;
+  padding: 14px;
+  margin-top: 12px;
+  background: #7b5cff;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.submit-button:hover {
+  background: #6a4ee8;
+}
+
+.submit-button:disabled {
+  background: #c6bfff;
+  cursor: not-allowed;
+}

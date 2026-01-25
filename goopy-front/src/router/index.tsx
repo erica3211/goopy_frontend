@@ -1,6 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
-import Home from "../pages/HomePage";
-import Waiting from "../pages/WaitingPage";
+import Home from "../pages/Home";
+import WaitingList from "../pages/WaitingList";
+import RegistrationWaiting from "../pages/RegistrationWaiting";
 import Admin from "../pages/AdminPage";
 import App from "../App"
 
@@ -10,8 +11,9 @@ export const router = createBrowserRouter([
     element: <App />,
     children: [
       { index: true, element: <Home /> },
-      { path: "waiting", element: <Waiting /> },
+      { path: "waiting/list", element: <WaitingList /> },
       { path: "admin", element: <Admin /> },
+      { path:"waiting/create", element: <RegistrationWaiting/>},
     ],
   },
 ]);

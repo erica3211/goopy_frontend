@@ -1,6 +1,6 @@
 import { useWaitingList } from "../hooks/useWaiting";
 
-export default function Waiting() {
+export default function WaitingList() {
   const { data, isLoading } = useWaitingList();
 
   if (isLoading) return <div>로딩중...</div>;

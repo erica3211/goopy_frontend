@@ -1,0 +1,26 @@
+:root {
+  --purple-main: #6c5ce7;
+  --purple-dark: #5a4bd8;
+  --purple-light: #f3f1ff;
+
+  --text-main: #2d2d2d;
+  --text-sub: #666;
+
+  --border-light: #e5e5e5;
+}
+
+/* 공통 버튼 */
+.btn-primary {
+  background-color: var(--purple-main);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 14px 20px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-primary:hover {
+  background-color: var(--purple-dark);
+}
