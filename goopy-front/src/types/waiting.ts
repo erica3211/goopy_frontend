@@ -7,3 +7,15 @@ export interface Waiting {
   queue_order: number;
   estimated_minutes: number;
 }
+
+export interface WaitingListResponse {
+  success: boolean;
+  data: {
+    items: Waiting[];
+    page: number;
+    size: number;
+    total: number;
+    total_pages: number;
+  };
+  message: string;
+}
