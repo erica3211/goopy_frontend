@@ -24,13 +24,23 @@ interface CreateWaitingRequest {
 
 interface CreateWaitingResponse {
   success: boolean;
-  data: Waiting;
+  data: null;
   message: string;
 }
 
 export const createWaiting = async (
   data: CreateWaitingRequest
 ): Promise<CreateWaitingResponse> => {
-  const res = await api.post("/waitings/create", data);
+  const res = await api.post(
+    "/waitings/create",
+    null,
+    {
+      params: {
+        customer_id: data.customer_id,
+        estimated_minutes: data.estimated_minutes,
+      },
+    }
+  );
+
   return res.data;
 };

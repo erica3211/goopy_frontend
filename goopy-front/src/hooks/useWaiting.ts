@@ -7,14 +7,3 @@ export const useWaitingList = () => {
     queryFn: () => getWaitingList({ status: "WAITING" }),
   });
 };
-
-// export const useCreateWaiting = () => {
-//   const queryClient = useQueryClient();
-
-//   return useMutation({
-//     mutationFn: createWaiting,
-//     onSuccess: () => {
-//       queryClient.invalidateQueries({ queryKey: ["waitingList"] });
-//     },
-//   });
-// };
