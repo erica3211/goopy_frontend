@@ -8,7 +8,7 @@ export const getCustomerByPhone = async (
   phone: string
 ): Promise<Customer | null> => {
   try {
-    const res = await api.get("/customers/by-phone", {
+    const res = await api.get("/get_customer/by-phone", {
       params: { phone },
     });
 
@@ -22,4 +22,15 @@ export const getCustomerByPhone = async (
     }
     throw e;
   }
+};
+
+export const createCustomer = async (
+  name: string,
+  phone: string
+): Promise<Customer> => {
+  const res = await api.post("/create_customer", { name, phone },
+  );
+
+  console.log("res", res);
+  return res.data.data;
 };

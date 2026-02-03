@@ -1,62 +1,74 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { getCustomerByPhone } from "../api/customers";
+import { getCustomerByPhone, createCustomer } from "../api/customers";
 import { createWaiting } from "../api/waiting";
 import "../styles/RegistrationWaiting.css";
 import "../styles/common.css";
 
 export default function RegistrationWaiting() {
   const navigate = useNavigate();
-  // const [name, setName] = useState("");
+  const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [loading, setLoading] = useState(false);
+  const [step, setStep] = useState<"PHONE" | "NAME">("PHONE");
 
-const handleSubmit = async () => {
-  if (!phone) {
-    alert("전화번호를 입력해주세요.");
-    return;
-  }
+  const handleSubmit = async () => {
+    try {
+      setLoading(true);
 
-  setLoading(true);
+      if (step === "PHONE") {
+        if (!phone) {
+          alert("전화번호를 입력해주세요.");
+          return;
+        }
 
-  try {
-    // 고객 조회
-    const customer = await getCustomerByPhone(phone);
+        const customer = await getCustomerByPhone(phone);
 
-    if (!customer) {
-      alert("등록된 고객이 없습니다. 먼저 고객을 등록해주세요.");
-      return;
+        if (!customer) {
+          alert("등록된 고객이 없습니다. 성함을 입력해주세요.");
+          setStep("NAME");
+          return;
+        }
+
+        const ok = window.confirm(
+          `${customer.name} 님으로 웨이팅 등록할까요?`
+        );
+        if (!ok) return;
+
+        await createWaiting({
+          customer_id: customer.id,
+          estimated_minutes: 15,
+        });
+
+        alert("웨이팅 등록 완료!");
+        navigate("/");
+        return;
+      }
+
+      if (step === "NAME") {
+        if (!name) {
+          alert("성함을 입력해주세요.");
+          return;
+        }
+
+        // 👉 여기서 고객 생성 API 호출하면 됨
+        const newCustomer = await createCustomer(name, phone);
+
+        await createWaiting({
+          customer_id: newCustomer.id,
+          estimated_minutes: 15,
+        });
+
+        alert(`${name} 님 고객 등록 완료!`);
+        navigate("/");
+        return;
+      }
+    } catch (e) {
+      alert("처리 중 오류가 발생했어요 😢");
+    } finally {
+      setLoading(false);
     }
-
-    // 확인 모달
-    const ok = window.confirm(
-      `${customer.name} 님으로 웨이팅 등록할까요?`
-    );
-
-    // 취소
-    if (!ok) return;
-
-    // 웨이팅 등록
-    const res = await createWaiting({
-      customer_id: customer.id,
-      estimated_minutes: 15,
-    });
-
-    if (!res.success) {
-      alert(res.message ?? "웨이팅 등록에 실패했어요 😢");
-      return;
-    }
-
-    alert("웨이팅 등록 완료!");
-    navigate("/waiting/list");
-
-  } catch (e) {
-    console.error(e);
-    alert("웨이팅 등록 중 오류가 발생했어요 😢");
-  } finally {
-    setLoading(false);
-  }
-};
+  };
 
   return (
     <div className="waiting-register-page">
@@ -64,12 +76,20 @@ const handleSubmit = async () => {
         <h1 className="title">웨이팅 등록</h1>
 
         <div className="form-group">
-          <label>전화번호</label>
+          <label>{step === "PHONE" ? "전화번호" : "이름"}</label>
           <input
-            type="tel"
-            placeholder="010-1234-5678"
-            value={phone}
-            onChange={(e) => setPhone(e.target.value)}
+            type={step === "PHONE" ? "tel" : "text"}
+            placeholder={
+              step === "PHONE"
+                ? "010-1234-5678"
+                : "성함을 입력해주세요"
+            }
+            value={step === "PHONE" ? phone : name}
+            onChange={(e) =>
+              step === "PHONE"
+                ? setPhone(e.target.value)
+                : setName(e.target.value)
+            }
           />
         </div>
 
