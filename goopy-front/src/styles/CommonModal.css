@@ -1,0 +1,82 @@
+/* 배경 오버레이 */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(108, 92, 231, 0.25); /* purple-light 계열 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+/* 모달 카드 */
+.modal {
+  background: white;
+  width: 100%;
+  max-width: 360px;
+  padding: 28px 24px;
+  border-radius: 24px; /* home-card랑 통일 */
+  box-shadow: 0 12px 32px rgba(108, 92, 231, 0.18);
+  text-align: center;
+  animation: modalFadeIn 0.2s ease-out;
+}
+
+/* 메시지 텍스트 */
+.modal p {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  line-height: 1.5;
+  margin-bottom: 24px;
+}
+
+/* 버튼 영역 */
+.modal-buttons {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+
+/* 공통 버튼 */
+.modal-buttons button {
+  flex: 1;
+  padding: 12px 0;
+  border-radius: 14px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+}
+
+/* 확인 버튼 (메인 퍼플) */
+.modal-buttons button.confirm {
+  background: var(--purple-main);
+  color: white;
+}
+
+.modal-buttons button.confirm:hover {
+  opacity: 0.9;
+}
+
+/* 취소 버튼 (아웃라인 느낌) */
+.modal-buttons button.cancel {
+  background: white;
+  border: 2px solid var(--purple-main);
+  color: var(--purple-main);
+}
+
+.modal-buttons button.cancel:hover {
+  background: var(--purple-light);
+}
+
+/* 등장 애니메이션 */
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
