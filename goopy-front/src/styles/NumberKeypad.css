@@ -1,0 +1,47 @@
+.keypad {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+
+  background: #ffffff;
+  padding: 24px 16px 32px;
+  border-top-left-radius: 24px;
+  border-top-right-radius: 24px;
+
+  box-shadow: 0 -6px 24px rgba(0, 0, 0, 0.2);
+  z-index: 9999;
+
+  display: grid;
+  gap: 14px;
+}
+
+.keypad--number {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.keypad__button {
+  height: 72px;
+  font-size: 26px;
+  border-radius: 16px;
+  border: none;
+  background: #f1f3f5;
+}
+
+.keypad__button:active {
+  transform: scale(0.95);
+  background-color: #e0e0e0;
+}
+
+.keypad__button--confirm {
+  background-color: #4f46e5;
+  color: white;
+}
+
+.keypad__button--confirm:active {
+  background-color: #4338ca;
+}
+
+.keypad__button--delete {
+  font-size: 22px;
+}

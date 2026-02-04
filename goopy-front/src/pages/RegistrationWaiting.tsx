@@ -6,9 +6,16 @@ import "../styles/RegistrationWaiting.css";
 import "../styles/Common.css";
 import "../styles/CommonModal.css";
 import CommonModal from "../components/modal/CommonModal";
+import NumberKeypad from "../components/keypad/NumberKeypad";
+import TextKeypad from "../components/keypad/TextKeypad";
+import "../styles/NumberKeypad.css";
+import "../styles/TextKeypad.css";
 
 export default function RegistrationWaiting() {
   type ModalType = "ALERT" | "CONFIRM" | null;
+
+  type KeypadType = "number" | "text" | null;
+
   const [modalType, setModalType] = useState<ModalType>(null);
   const [modalMessage, setModalMessage] = useState("");
   const [onConfirm, setOnConfirm] = useState<(() => void) | null>(null);
@@ -18,6 +25,44 @@ export default function RegistrationWaiting() {
   const [phone, setPhone] = useState("");
   const [loading, setLoading] = useState(false);
   const [step, setStep] = useState<"PHONE" | "NAME">("PHONE");
+
+  const [activeKeypad, setActiveKeypad] = useState<KeypadType>(null);
+
+  const handleNumberInput = (num: number) => {
+    const onlyNumber = phone.replace(/\D/g, "");
+    if (onlyNumber.length >= 11) return;
+
+    setPhone(formatPhoneNumber(onlyNumber + num));
+  };
+
+  const handleNumberBackspace = () => {
+    const onlyNumber = phone.replace(/\D/g, "");
+    setPhone(formatPhoneNumber(onlyNumber.slice(0, -1)));
+  };
+
+  const handleTextInput = (char: string) => {
+    if (name.length >= 6) return;
+    setName(prev => prev + char);
+  };
+
+  const handleTextBackspace = () => {
+    setName(prev => prev.slice(0, -1));
+  };
+
+  const formatPhoneNumber = (value: string) => {
+    const numbersOnly = value.replace(/\D/g, "");
+
+    if (numbersOnly.length <= 3) {
+      return numbersOnly;
+    }
+    if (numbersOnly.length <= 7) {
+      return `${numbersOnly.slice(0, 3)}-${numbersOnly.slice(3)}`;
+    }
+    return `${numbersOnly.slice(0, 3)}-${numbersOnly.slice(
+      3,
+      7
+    )}-${numbersOnly.slice(7, 11)}`;
+  };
 
   const registerWaiting = async (customerId: number, name: string) => {
     await createWaiting({
@@ -35,9 +80,17 @@ export default function RegistrationWaiting() {
       setLoading(true);
 
       if (step === "PHONE") {
-        if (!phone) {
+        const onlyNumber = phone.replace(/\D/g, "");
+
+        if (!onlyNumber) {
           setModalType("ALERT");
           setModalMessage("전화번호를 입력해주세요.");
+          return;
+        }
+
+        if (onlyNumber.length !== 11) {
+          setModalType("ALERT");
+          setModalMessage("전화번호를 정확히 입력해주세요.");
           return;
         }
 
@@ -52,7 +105,6 @@ export default function RegistrationWaiting() {
 
         setModalType("CONFIRM");
         setModalMessage(`${customer.name} 님으로 웨이팅 등록할까요?`);
-        console.log("modal open");
         setOnConfirm(() => async () => {
           await registerWaiting(customer.id, customer.name);
         });
@@ -69,7 +121,11 @@ export default function RegistrationWaiting() {
         }
 
         const newCustomer = await createCustomer(name, phone);
-        await registerWaiting(newCustomer.id, newCustomer.name);
+        setModalType("CONFIRM");
+        setModalMessage(`${newCustomer.name} 님으로 웨이팅 등록할까요?`);
+        setOnConfirm(() => async () => {
+          await registerWaiting(newCustomer.id, newCustomer.name);
+        });
         return;
       }
     } catch (e) {
@@ -95,12 +151,25 @@ export default function RegistrationWaiting() {
                   ? "010-1234-5678"
                   : "성함을 입력해주세요"
               }
+
               value={step === "PHONE" ? phone : name}
-              onChange={(e) =>
-                step === "PHONE"
-                  ? setPhone(e.target.value)
-                  : setName(e.target.value)
-              }
+              onChange={(e) => {
+                if (step === "PHONE") {
+                  const formatted = formatPhoneNumber(e.target.value);
+                  setPhone(formatted);
+                } else {
+                  setName(e.target.value);
+                }
+              }}
+              readOnly
+              onClick={() => {
+                if (step === "PHONE") {
+                  setActiveKeypad("number")
+                }
+                else {
+                  setActiveKeypad("text")
+                }
+              }}
             />
           </div>
           <div className="button-row">
@@ -132,6 +201,20 @@ export default function RegistrationWaiting() {
             setModalType(null);
             setOnConfirm(null);
           }}
+        />
+      )}
+      {activeKeypad === "number" && (
+        <NumberKeypad
+          onInput={handleNumberInput}
+          onBackspace={handleNumberBackspace}
+          onConfirm={() => setActiveKeypad(null)}
+        />
+      )}
+      {activeKeypad === "text" && (
+        <TextKeypad
+          onInput={handleTextInput}
+          onBackspace={handleTextBackspace}
+          onConfirm={() => setActiveKeypad(null)}
         />
       )}
     </>

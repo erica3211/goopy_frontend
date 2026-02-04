@@ -1,0 +1,54 @@
+.keypad {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: #ffffff;
+  padding: 20px 16px 28px;
+  border-top-left-radius: 24px;
+  border-top-right-radius: 24px;
+  box-shadow: 0 -6px 24px rgba(0, 0, 0, 0.2);
+  z-index: 9999;
+}
+
+/* TEXT 전용 */
+.keypad--text {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.keypad__row {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.keypad__row--action {
+  margin-top: 6px;
+}
+
+.keypad__button {
+  min-width: 52px;
+  height: 64px;
+  font-size: 22px;
+  border-radius: 14px;
+  border: none;
+  background: #f1f3f5;
+}
+
+.keypad__button:active {
+  transform: scale(0.95);
+  background-color: #e0e0e0;
+}
+
+.keypad__button--confirm {
+  background-color: #4f46e5;
+  color: white;
+  min-width: 120px;
+}
+
+.keypad__button--delete {
+  font-size: 22px;
+  min-width: 80px;
+}
