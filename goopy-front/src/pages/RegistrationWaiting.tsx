@@ -161,7 +161,7 @@ export default function RegistrationWaiting() {
                   setName(e.target.value);
                 }
               }}
-              readOnly
+              
               onClick={() => {
                 if (step === "PHONE") {
                   setActiveKeypad("number")
@@ -210,13 +210,13 @@ export default function RegistrationWaiting() {
           onConfirm={() => setActiveKeypad(null)}
         />
       )}
-      {activeKeypad === "text" && (
-        <TextKeypad
-          onInput={handleTextInput}
-          onBackspace={handleTextBackspace}
-          onConfirm={() => setActiveKeypad(null)}
-        />
-      )}
+      <TextKeypad
+        isOpen={activeKeypad === "text"}
+        onInput={handleTextInput}
+        onBackspace={handleTextBackspace}
+        onConfirm={() => setActiveKeypad(null)}
+        onClose={() => setActiveKeypad(null)}
+      />
     </>
   );
 }
