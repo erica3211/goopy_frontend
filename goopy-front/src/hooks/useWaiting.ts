@@ -1,9 +1,10 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { getWaitingList } from "../api/waiting";
 
-export const useWaitingList = () => {
-  return useQuery({
-    queryKey: ["waitingList"],
-    queryFn: () => getWaitingList({ status: "WAITING" }),
+type WaitingStatus = "WAITING" | "IN_PROGRESS";
+
+export const useWaitingList = (status?: WaitingStatus) =>
+  useQuery({
+    queryKey: ["waitingList", status],
+    queryFn: () => getWaitingList({ status }),
   });
-};

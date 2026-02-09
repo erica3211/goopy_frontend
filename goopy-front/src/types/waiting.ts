@@ -6,6 +6,7 @@ export interface Waiting {
   status: "WAITING" | "IN_PROGRESS" | "DONE"; // enum 느낌
   queue_order: number;
   estimated_minutes: number;
+  started_at : Date;
 }
 
 export interface WaitingListResponse {

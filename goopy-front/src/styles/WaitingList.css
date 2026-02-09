@@ -1,0 +1,89 @@
+/* 슬롯 */
+.current-slots {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.current-card {
+  background: #fff;
+  border-radius: 20px;
+  padding: 20px;
+  box-shadow: 0 10px 24px rgba(0,0,0,0.08);
+  text-align: center;
+}
+
+.current-slot {
+  font-size: 13px;
+  color: #6b7280;
+  margin-bottom: 6px;
+}
+
+.current-name {
+  font-size: 22px;
+  font-weight: 800;
+}
+
+.current-time {
+  margin-top: 6px;
+  font-size: 15px;
+  color: #374151;
+}
+
+/* 슬롯 버튼 */
+.slot-actions {
+  margin-top: 12px;
+}
+
+.slot-duration {
+  display: flex;
+  gap: 6px;
+  margin-top: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* 대기 리스트 */
+.waiting-row {
+  display: grid;
+  grid-template-columns: 40px 1fr 80px 220px;
+  align-items: center;
+  padding: 14px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.waiting-name {
+  font-weight: 700;
+}
+
+/* 공통 버튼 */
+.btn {
+  border: none;
+  border-radius: 10px;
+  padding: 8px 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.btn.start { background: #4f46e5; color: white; }
+.btn.end { background: #ef4444; color: white; }
+.btn.back { background: #9ca3af; color: white; }
+.btn.cancel { background: #374151; color: white; }
+.btn.minute {
+  background: #f1f5f9;
+  color: #374151;
+  transition: all 0.2s ease;
+}
+.btn.minute:hover {
+  background: #ede9fe;   /* 연보라 */
+  color: #4f46e5;
+}
+.btn.minute.active {
+  background: #4f46e5;   /* 보라 */
+  color: #ffffff;
+  box-shadow: 0 6px 16px rgba(79, 70, 229, 0.3);
+}
+.btn.minute.active:hover {
+  background: #4f46e5;
+}
