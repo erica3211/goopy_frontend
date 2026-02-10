@@ -6,7 +6,7 @@ export const getWaitingList = async (params?: {
   page?: number;
   size?: number;
 }): Promise<WaitingListResponse> => {
-  const res = await api.get("/waitings/list", {
+  const res = await api.get("/get_waiting_list", {
     params: {
       status: params?.status ?? "WAITING",
       page: params?.page ?? 1,
@@ -28,11 +28,17 @@ interface CreateWaitingResponse {
   message: string;
 }
 
+interface UpdateWaitingRequest {
+  waiting_id : number;
+  estimated_minutes ?: number;
+  status : "WAITING" | "IN_PROGRESS" | "DONE" | "CANCEL" | "NO_SHOW"
+}
+
 export const createWaiting = async (
   data: CreateWaitingRequest
 ): Promise<CreateWaitingResponse> => {
   const res = await api.post(
-    "/waitings/create",
+    "/create_waiting",
     null,
     {
       params: {
@@ -44,3 +50,10 @@ export const createWaiting = async (
 
   return res.data;
 };
+
+export const updateWaiting = async(
+  data: UpdateWaitingRequest):
+  Promise<UpdateWaitingRequest> =>{
+    const res = await api.put(`/update_waiting/${data.waiting_id}`, null, {params:{estimated_minutes: data.estimated_minutes, status: data.status}})
+    return res.data;
+  }

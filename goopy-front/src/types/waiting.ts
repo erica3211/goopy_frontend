@@ -3,7 +3,7 @@ export interface Waiting {
   name : string;
   phone : string;
   customer_id: number;
-  status: "WAITING" | "IN_PROGRESS" | "DONE"; // enum 느낌
+  status: "WAITING" | "IN_PROGRESS" | "DONE" | "CANCEL" | "NO_SHOW"; // enum 느낌
   queue_order: number;
   estimated_minutes: number;
   started_at : Date;
