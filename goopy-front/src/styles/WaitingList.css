@@ -39,8 +39,8 @@
 .slot-duration {
   display: flex;
   gap: 6px;
-  margin-top: 12px;
-  flex-wrap: wrap;
+  /* margin-top: 12px; */
+  /* flex-wrap: wrap; */
   justify-content: center;
 }
 
@@ -54,7 +54,13 @@
 }
 
 .waiting-name {
-  font-weight: 700;
+  font-weight: 500;
+}
+
+.waiting-phone {
+  font-size: 12px;
+  color: #999;
+  margin-top: 2px;
 }
 
 /* 공통 버튼 */
@@ -86,4 +92,18 @@
 }
 .btn.minute.active:hover {
   background: #4f46e5;
+}
+.current-times {
+  text-align: left;
+  font-size: 14px;
+  color: #555;
+  margin-top: 8px;
+}
+
+.current-controls {
+  margin-top: 16px;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 12px;
 }

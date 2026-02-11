@@ -1,4 +1,5 @@
 export interface Waiting {
+  //updated_at(updated_at: any): import("react").ReactNode;
   id: number;
   name : string;
   phone : string;
@@ -7,6 +8,8 @@ export interface Waiting {
   queue_order: number;
   estimated_minutes: number;
   started_at : Date;
+  created_at : Date;
+  updated_at : Date;
 }
 
 export interface WaitingListResponse {

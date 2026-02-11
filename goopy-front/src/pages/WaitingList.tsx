@@ -27,6 +27,18 @@ export default function WaitingList() {
     });
   };
 
+  const maskPhone = (phone?: string) => {
+    if (!phone) return "";
+    return phone.replace(/(\d{3})\d{4}(\d{4})/, "$1-****-$2");
+  };
+
+  const formatTime = (time: Date) =>
+    new Date(time).toLocaleTimeString("ko-KR", {
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: false, 
+    });
+
   return (
     <div className="waiting-container">
       <h1 className="waiting-title">웨이팅 현황</h1>
@@ -40,35 +52,41 @@ export default function WaitingList() {
             <div className="current-name">{w.name}</div>
 
             <div className="current-time">
-              시작 시간 | {new Date(w.started_at).toLocaleTimeString("ko-KR", {
-                hour: "2-digit",
-                minute: "2-digit",
-              })}
-            </div>
-            <div className="current-time">
+              시작 시간 | {formatTime(w.started_at)}
               예상 종료 시간 | {getEndTime(w.started_at, w.estimated_minutes)}
             </div>
 
-            <div className="slot-actions">
-              <button className="btn end"
-                onClick={() => updateWaitingMutate({ waiting_id: w.id, estimated_minutes: w.estimated_minutes, status: "DONE" })}
-              >종료</button>
-            </div>
-
-            <div className="slot-duration">
-              {[5, 10, 15, 20, 25].map((m) => {
-                const isActive = w.estimated_minutes === m;
-                console.log("m", m);
-                return (
+            <div className="current-controls">
+              <div className="slot-duration">
+                {[5, 10, 15, 20, 25].map((m) => (
                   <button
                     key={m}
-                    className={`btn minute ${isActive ? "active" : ""}`}
-                    onClick={() => updateWaitingMutate({ waiting_id: w.id, estimated_minutes: m, status: w.status })}
+                    className={`btn minute ${w.estimated_minutes === m ? "active" : ""
+                      }`}
+                    onClick={() =>
+                      updateWaitingMutate({
+                        waiting_id: w.id,
+                        estimated_minutes: m,
+                        status: w.status,
+                      })
+                    }
                   >
                     {m}분
                   </button>
-                );
-              })}
+                ))}
+                <button
+                  className="btn end"
+                  onClick={() =>
+                    updateWaitingMutate({
+                      waiting_id: w.id,
+                      estimated_minutes: w.estimated_minutes,
+                      status: "DONE",
+                    })
+                  }
+                >
+                  종료
+                </button>
+              </div>
             </div>
           </div>
         ))}
@@ -80,13 +98,12 @@ export default function WaitingList() {
           <div key={w.id} className="waiting-row">
             <div className="waiting-order">{idx + 1}</div>
 
-            <div className="waiting-name">{w.name}</div>
-
+            <div>
+              <div className="waiting-name">{w.name}</div>
+              <div className="waiting-phone">{maskPhone(w.phone)}</div>
+            </div>
             <div className="waiting-time">
-              {new Date(w.started_at).toLocaleTimeString("ko-KR", {
-                hour: "2-digit",
-                minute: "2-digit",
-              })}
+              {formatTime(w.updated_at)}
             </div>
 
             <div className="waiting-actions">
