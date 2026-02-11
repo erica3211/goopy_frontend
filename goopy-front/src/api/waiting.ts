@@ -1,8 +1,9 @@
 import { api } from "./axios";
-import type { Waiting, WaitingListResponse } from "../types/waiting";
+import type { Waiting, WaitingListResponse, WaitingStatus } from "../types/waiting";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export const getWaitingList = async (params?: {
-  status?: "WAITING" | "IN_PROGRESS";
+  status?: WaitingStatus;
   page?: number;
   size?: number;
 }): Promise<WaitingListResponse> => {

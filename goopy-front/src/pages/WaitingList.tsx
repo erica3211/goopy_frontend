@@ -1,4 +1,6 @@
-import { useWaitingList } from "../hooks/useWaiting";
+import { useEffect } from "react";
+import { updateWaiting } from "../api/waiting";
+import { useUpdateWaiting, useWaitingList } from "../hooks/useWaiting";
 import "../styles/WaitingList.css";
 
 export default function WaitingList() {
@@ -7,7 +9,7 @@ export default function WaitingList() {
 
   const { data: progressData, isLoading: progressLoading } =
     useWaitingList("IN_PROGRESS");
-
+  const { mutate: updateWaitingMutate } = useUpdateWaiting();
   if (waitingLoading || progressLoading) {
     return <div className="waiting-loading">로딩중...</div>;
   }
@@ -38,24 +40,30 @@ export default function WaitingList() {
             <div className="current-name">{w.name}</div>
 
             <div className="current-time">
+              시작 시간 | {new Date(w.started_at).toLocaleTimeString("ko-KR", {
+                hour: "2-digit",
+                minute: "2-digit",
+              })}
+            </div>
+            <div className="current-time">
               예상 종료 시간 | {getEndTime(w.started_at, w.estimated_minutes)}
             </div>
 
             <div className="slot-actions">
               <button className="btn end"
-              //onClick={}
+                onClick={() => updateWaitingMutate({ waiting_id: w.id, estimated_minutes: w.estimated_minutes, status: "DONE" })}
               >종료</button>
             </div>
 
             <div className="slot-duration">
               {[5, 10, 15, 20, 25].map((m) => {
                 const isActive = w.estimated_minutes === m;
-
+                console.log("m", m);
                 return (
                   <button
                     key={m}
                     className={`btn minute ${isActive ? "active" : ""}`}
-                  //onClick={() => updateEstimatedTime(w.id, m)}
+                    onClick={() => updateWaitingMutate({ waiting_id: w.id, estimated_minutes: m, status: w.status })}
                   >
                     {m}분
                   </button>

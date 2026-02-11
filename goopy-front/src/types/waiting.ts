@@ -20,3 +20,6 @@ export interface WaitingListResponse {
   };
   message: string;
 }
+
+export type WaitingStatus = 
+  "WAITING" | "IN_PROGRESS" | "DONE" | "CANCEL" | "NO_SHOW";
