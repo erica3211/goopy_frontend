@@ -1,3 +1,5 @@
+import "../../styles/CommonModal.css";
+
 interface Props {
   type: "ALERT" | "CONFIRM";
   message: string;
